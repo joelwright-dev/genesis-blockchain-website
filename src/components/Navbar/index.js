@@ -1,5 +1,7 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { FaBars } from 'react-icons/fa'
+import {IconContext} from 'react-icons/lib'
+import {animateScroll as scroll} from 'react-scroll'
 import { 
     Nav, 
     NavbarContainer, 
@@ -9,34 +11,61 @@ import {
     NavItem, 
     NavLinks,
     NavBtn, 
-    NavBtnLink
+    NavBtnLink,
+    NavLinksRoute,
+    NavLinksActive
 } from './NavbarElements'
 
 const Navbar = ({toggle}) => {
+    const [scrollNav, setScrollNav] = useState(false)
+
+    const changeNav = () => {
+        if(window.scrollY >= 80) {
+            setScrollNav(true)
+        }
+    
+        else {
+            setScrollNav(false)
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener('scroll', changeNav)
+    }, [])
+
+    const toggleHome = () => {
+        scroll.scrollToTop()
+    }
+
     return (
         <>
-            <Nav>
-                <NavbarContainer>
-                    <NavLogo to="/">OpenBC</NavLogo>
-                    <MobileIcon onClick={toggle}>
-                        <FaBars/>
-                    </MobileIcon>
-                    <NavMenu>
-                        <NavItem>
-                            <NavLinks to="about">About</NavLinks>
-                        </NavItem>
-                        <NavItem>
-                            <NavLinks to="features">Features</NavLinks>
-                        </NavItem>
-                        <NavItem>
-                            <NavLinks to="documentation">Documentation</NavLinks>
-                        </NavItem>
-                    </NavMenu>
-                    <NavBtn>
-                        <NavBtnLink to="/wallet">Wallet</NavBtnLink>
-                    </NavBtn>
-                </NavbarContainer>
-            </Nav>
+            <IconContext.Provider value={{color: '#fff'}}>
+                <Nav scrollNav={scrollNav}>
+                    <NavbarContainer>
+                        <NavLogo to="/" onClick={toggleHome}>OpenBC</NavLogo>
+                        <MobileIcon onClick={toggle}>
+                            <FaBars/>
+                        </MobileIcon>
+                        <NavMenu>
+                            <NavItem>
+                                <NavLinks to="about" smooth={true} duration={500} spy={true} exact='true' offset={-80}>About</NavLinks>
+                            </NavItem>
+                            <NavItem>
+                                <NavLinks to="features" smooth={true} duration={500} spy={true} exact='true' offset={-80}>Features</NavLinks>
+                            </NavItem>
+                            <NavItem>
+                                <NavLinksRoute to="/documentation">Documentation</NavLinksRoute>
+                            </NavItem>
+                            <NavItem>
+                                <NavLinksRoute to="/history">Blockchain History</NavLinksRoute>
+                            </NavItem>
+                        </NavMenu>
+                        <NavBtn>
+                            <NavBtnLink to="/wallet">Wallet</NavBtnLink>
+                        </NavBtn>
+                    </NavbarContainer>
+                </Nav>
+            </IconContext.Provider>
         </>
     )
 }

@@ -7,7 +7,8 @@ import {
     SidebarMenu,
     SidebarLink,
     SideBtnWrap,
-    SidebarRoute
+    SidebarRoute,
+    SidebarLinkRoute
 } from './SidebarElements'
 
 const Sidebar = ({isOpen, toggle}) => {
@@ -19,8 +20,9 @@ const Sidebar = ({isOpen, toggle}) => {
             <SidebarWrapper>
                 <SidebarMenu>
                     <SidebarLink to="about" onClick={toggle}>About</SidebarLink>
-                    <SidebarLink to="history" onClick={toggle}>Blockchain History</SidebarLink>
-                    <SidebarLink to="documentation" onClick={toggle}>Documentation</SidebarLink>
+                    <SidebarLink to="features" onClick={toggle}>Features</SidebarLink>
+                    <SidebarLinkRoute to="/documentation" onClick={toggle}>Documentation</SidebarLinkRoute>
+                    <SidebarLinkRoute to="/history" onClick={toggle}>Blockchain History</SidebarLinkRoute>
                 </SidebarMenu>
                 <SideBtnWrap>
                     <SidebarRoute to="/wallet" onClick={toggle}>Wallet</SidebarRoute>
